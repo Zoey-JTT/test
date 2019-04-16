@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>百度注册页面</title>
+
+        <style>
+            #main{
+                width: 610px;
+                margin: 0 auto;
+            }
+            table{
+                margin: 20px 0 0 30px;
+                font-size: 18px;
+            }
+            table tr{
+                height: 40px;
+            }
+            table .sex_text, #tip4{
+                position: relative;
+                top: -5px;
+            }
+            input, select{
+                padding: 0 5px;
+                outline: none;
+                height: 25px;
+            }
+            span{
+                margin: 0 5px;
+            }
+            .tip{
+                font-size: 15px;
+                color: red;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="main">
+            <img src="img/header1.jpg">
+            <form action="success.html" method="post" onsubmit="return checkAll()">
+                <table>
+                    <tr>
+                        <td>用户名：</td>
+                        <td><input type="text" id="username"><span class="tip" id="tip1"></span></td>
+                    </tr>
+                    <tr>
+                        <td>密码：</td>
+                        <td><input type="password" id="pwd1"><span class="tip" id="tip2"></span></td>
+                    </tr>
+                    <tr>
+                        <td>确认密码：</td>
+                        <td><input type="password" id="pwd2"><span class="tip" id="tip3"></span></td>
+                    </tr>
+                    <tr>
+                        <td>性别：</td>
+                        <td>
+                            <input type="radio" name="sex" value="男" class="sex"><span class="sex_text">男</span>
+                            <input type="radio" name="sex" value="女" class="sex"><span class="sex_text">女</span>
+                            <span class="tip" id="tip4"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>邮箱：</td>
+                        <td><input type="text" id="mail"><span class="tip" id="tip5"></span></td>
+                    </tr>
+                    <tr>
+                        <td>出生日期：</td>
+                        <td>
+                            <select id="year"> </select><span>年</span>
+                            <select id="month"> </select><span>月</span>
+                            <select id="day"> </select><span>日</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> </td>
+                        <td>
+                            <input type="reset" value="重置">
+                            <input type="submit" value="注册">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+        <script>
+            var year=document.getElementById("year");
+            var month=document.getElementById("month");
+            var day=document.getElementById("day");
+
+            for(var i=1990;i<=2019;i++){
+                year.options.add(new Option(i,i));
+            }
+            for(var j=1;j<=12;j++){
+                month.options.add(new Option(j,j));
+            }
+            for(var k=1;k<=31;k++){
+                day.options.add(new Option(k,k));
+            }
+
+            var user=document.getElementById("username");
+            var pwd1=document.getElementById("pwd1");
+            var pwd2=document.getElementById("pwd2");
+            var mail=document.getElementById("mail");
+            var sex=document.getElementsByClassName("sex");
+
+            var tip1=document.getElementById("tip1");
+            var tip2=document.getElementById("tip2");
+            var tip3=document.getElementById("tip3");
+            var tip4=document.getElementById("tip4");
+            var tip5=document.getElementById("tip5");
+
+            function checkAll(){
+                /***********************************checkUsername***********************/
+                tip1.innerHTML="";
+
+                /*if(user.value==""){
+                    tip1.innerHTML="* 用户名不能为空";
+                    return false;
+                }else if(user.value.length<4 || user.value.length>12){
+                    tip1.innerHTML="* 长度为4-12个字符";
+                    return false;
+                }else{
+                    for(var i=0;i<user.value.length;i++){
+                        var symbol=user.value.toLowerCase().charAt(i);
+                        if((!(symbol>=0 && symbol<=9))  && (!(symbol>='a'&& symbol<='z')) && symbol!='_'){
+                            tip1.innerHTML="* 必须由字母、数字和下划线组成";
+                            return false;
+                        }
+                    }
+                }*/
+
+                //正则表达式
+                var reg1=/^[a-zA-Z0-9_]{4,12}$/;
+                if(user.value==""){
+                    tip1.innerHTML="* 用户名不能为空";
+                    return false;
+                }else if(!reg1.test(user.value)){
+                    tip1.innerHTML="* 长度为4-12且由字母、数字和下划线组成";
+                    return false;
+                }
+
+                /*************************************checkPWD**************************/
+                tip2.innerHTML="";
+                tip3.innerHTML="";
+
+                /*if(pwd1.value==""){
+                    tip2.innerHTML="* 密码不能为空";
+                    return false;
+                }else if(pwd1.value.length<6 || pwd1.value.length>12){
+                    tip2.innerHTML="* 长度为6-12个字符";
+                    return false;
+                }else{
+                    for(var i=0;i<pwd1.value.length;i++){
+                        var symbol=pwd1.value.toLowerCase().charAt(i);
+                        if((!(symbol>=0 && symbol<=9))  && (!(symbol>='a'&& symbol<='z')) && symbol!='_'){
+                            tip2.innerHTML="* 必须由字母、数字和下划线组成";
+                            return false;
+                        }
+                    }
+                }*/
+
+                //正则表达式
+                var reg2=/^[a-zA-Z0-9_]{6,12}$/;
+                if(pwd1.value==""){
+                    tip2.innerHTML="* 密码不能为空";
+                    return false;
+                }else if(!reg2.test(pwd1.value)){
+                    tip2.innerHTML="* 长度为6-12且由字母、数字和下划线组成";
+                    return false;
+                }
+                if(pwd1.value != pwd2.value){
+                    tip3.innerHTML="* 两次密码不一致";
+                    return false;
+                }
+
+                /*************************************checkSex***********************************/
+                tip4.innerHTML="";
+                var flag=false;
+                for(var i=0;i<sex.length;i++){
+                    if(sex[i].checked){
+                        flag=true;
+                        break;
+                    }
+                }
+                if(!flag){
+                    tip4.innerHTML="* 请选择性别";
+                    return false;
+                }
+
+                /*******************************************checkMail****************************/
+                tip5.innerHTML="";
+
+                /*if(mail.value==""){
+                    tip5.innerHTML="* 邮箱不能为空";
+                    return false;
+                }else if(mail.value.indexOf("@")==-1){
+                    tip5.innerHTML="* 必须包含@和.";
+                    return false;
+                }else if(mail.value.indexOf(".")==-1){
+                    tip5.innerHTML="* 必须包含@和.";
+                    return false;
+                }*/
+
+                //正则表达式
+                var reg3=/[@]+.*[.]+|[.]+.*[@]+/;
+                if(mail.value==""){
+                    tip5.innerHTML="* 邮箱不能为空";
+                    return false;
+                }else if(!reg3.test(mail.value)){
+                    tip5.innerHTML="* 必须包含@和.";
+                    return false;
+                }
+            }
+        </script>
+    </body>
+</html>

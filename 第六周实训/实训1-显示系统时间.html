@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>动态显示系统时间</title>
+
+        <style>
+            #main {
+                width: 913px;
+                margin: 0 auto;
+            }
+
+            #picture {
+                text-align: center;
+            }
+
+            #time {
+                font-size: 25px;
+                color: #CC0000;
+                margin: 10px 0;
+            }
+
+            #showTime {
+                font-size: 35px;
+                color: #CC0000;
+                padding: 5px 10px;
+                border: none;
+            }
+        </style>
+    </head>
+    <body onload="now()">
+        <div id="main">
+            <div id="picture"><img src="img/shixun1.png"></div>
+            <div id="time">
+                当前系统时间：<input type="text" id="showTime">
+            </div>
+        </div>
+
+        <script>
+            function now() {
+                var time = new Date();
+                var hour = time.getHours();
+                var minute = time.getMinutes()
+                var second = time.getSeconds();
+                var showTime = document.getElementById("showTime");
+
+                hour = hour < 10 ? "0" + hour : hour;
+                minute = minute < 10 ? "0" + minute : minute;
+                second = second < 10 ? "0" + second : second;
+
+                showTime.value = hour + ":" + minute + ":" + second;
+
+                var theTime = setInterval("now()", 1000);
+            }
+        </script>
+    </body>
+</html>
